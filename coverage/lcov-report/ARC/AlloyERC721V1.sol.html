@@ -1,0 +1,3365 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for ARC/AlloyERC721V1.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">ARC/</a> AlloyERC721V1.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/93</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/104</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/20</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/138</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808
+809
+810
+811
+812
+813
+814
+815
+816
+817
+818
+819
+820
+821
+822
+823
+824
+825
+826
+827
+828
+829
+830
+831
+832
+833
+834
+835
+836
+837
+838
+839
+840
+841
+842
+843
+844
+845
+846
+847
+848
+849
+850
+851
+852
+853
+854
+855
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881
+882
+883
+884
+885
+886
+887
+888
+889
+890
+891
+892
+893
+894
+895
+896
+897
+898
+899
+900
+901
+902
+903
+904
+905
+906
+907
+908
+909
+910
+911
+912
+913
+914
+915
+916
+917
+918
+919
+920
+921
+922
+923
+924
+925
+926
+927
+928
+929
+930
+931
+932
+933
+934
+935
+936
+937
+938
+939
+940
+941
+942
+943
+944
+945
+946
+947
+948
+949
+950
+951
+952
+953
+954
+955
+956
+957
+958
+959
+960
+961
+962
+963
+964
+965
+966
+967
+968
+969
+970
+971
+972
+973
+974
+975
+976
+977
+978
+979
+980
+981
+982
+983
+984
+985
+986
+987
+988
+989
+990
+991
+992
+993
+994
+995
+996
+997
+998
+999
+1000
+1001
+1002
+1003
+1004
+1005
+1006
+1007
+1008
+1009
+1010
+1011
+1012
+1013
+1014
+1015
+1016
+1017
+1018
+1019
+1020
+1021
+1022
+1023
+1024
+1025
+1026
+1027
+1028
+1029
+1030
+1031
+1032
+1033
+1034
+1035
+1036
+1037
+1038
+1039
+1040
+1041
+1042
+1043
+1044
+1045
+1046
+1047
+1048
+1049
+1050
+1051
+1052
+1053
+1054
+1055
+1056
+1057
+1058
+1059
+1060
+1061
+1062
+1063
+1064
+1065
+1066
+1067
+1068
+1069
+1070
+1071
+1072
+1073
+1074
+1075
+1076
+1077
+1078
+1079
+1080
+1081
+1082
+1083
+1084
+1085
+1086
+1087
+1088
+1089
+1090
+1091
+1092
+1093
+1094
+1095
+1096
+1097
+1098
+1099
+1100
+1101</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+pragma solidity 0.8.16;
+&nbsp;
+import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/cryptography/SignatureCheckerUpgradeable.sol";
+import "./IERC20Upgradeable.sol";
+import "./ArfInterface.sol";
+&nbsp;
+contract AlloyERC721V1 is
+    ERC721Upgradeable,
+    OwnableUpgradeable,
+    ReentrancyGuardUpgradeable
+{
+    using StringsUpgradeable for uint256;
+&nbsp;
+    // Token counter
+    uint256 public tokenCounter;
+&nbsp;
+    // royalties accepter address
+    address public MerchantWallet;
+&nbsp;
+    // NFT types
+    mapping(uint256 =&gt; string) public NFTtypes;
+&nbsp;
+    // bytes verification
+    mapping(bytes =&gt; bool) public isVerified;
+&nbsp;
+    // part order tuple
+    struct PartOrder {
+        uint256 partId;
+        bytes32 messageHash;
+    }
+&nbsp;
+    // upgrade order tuple
+    struct UpgradeOrder {
+        uint256 upgradeId;
+        string upgradeType;
+        bytes32 messageHash;
+    }
+&nbsp;
+    // tokenURI's
+    string baseUri;
+    string baseExtension;
+&nbsp;
+    // allowed printers number in one transaction
+    uint256 public allowedPrinters;
+&nbsp;
+    // NIOZ ERC20 contract address
+    IERC20Upgradeable public NiozERC20Address;
+&nbsp;
+    // order tuple
+    struct Order {
+        uint256 amount;
+        uint256 partTokenId;
+        uint256 partId;
+        bool isSendToWallet;
+        uint256 printerId;
+        uint256 printerTokenId;
+        bytes32 messageHash;
+    }
+&nbsp;
+    // constructor order tuple
+    struct ConstructOrder {
+        uint256 constructId;
+        bytes32 messageHash;
+    }
+&nbsp;
+    // process token order tuple
+    struct ProcessOrder {
+        uint256 partId;
+        bool isThread;
+        uint256 threadUpgradeTokenId;
+        uint256 threadUpgradeId;
+        bytes32 messageHash;
+    }
+&nbsp;
+    // assembling token order tuple
+    struct AssembleStruct {
+        uint256[] partTokenIds;
+        uint256[] partIds;
+        uint256 assembleUpgradeId;
+        uint256 assembleUpgradeTokenId;
+        string constructType;
+        bytes32 messageHash;
+    }
+&nbsp;
+    // marketplace order tuple
+    struct SellOrder {
+        uint256 Id;
+        uint256 amount;
+        bytes32 messageHash;
+    }
+&nbsp;
+    // upgrade order tuple
+    struct OrderUpgrade {
+        uint256 pId;
+        uint256 pTokenId;
+        uint256 uId;
+        uint256 uTokenId;
+        bytes32 messageHash;
+    }
+&nbsp;
+    // roylaties fees
+    uint256 public commissionFee;
+&nbsp;
+    // ARF ERC721 contract address
+    ARFInterface public ARFtokenAddress;
+&nbsp;
+    // minting printer order tuple
+    struct Order_Printer {
+        uint256 epoch_id;
+        uint256 pool_id;
+        uint256 quantity;
+        bytes32 message_hash;
+    }
+&nbsp;
+    // Events
+    /**
+     * @dev Emitted when user mints the printer.
+     */
+    event PrinterMinted(
+        address User,
+        uint256[] TokenIds,
+        uint256 EpochId,
+        uint256 PoolId,
+        uint256 AvaxPrice,
+        uint256 NiozPrice,
+        string NFTtype
+    );
+&nbsp;
+    /**
+     * @dev Emitted when user mints the parts.
+     */
+    event PartMinted(
+        address User,
+        uint256 TokenId,
+        uint256 PartId,
+        string NFTtype
+    );
+&nbsp;
+    /**
+     * @dev Emitted when user sells processed part to factory.
+     */
+    event PartBurned(
+        address User,
+        uint256 PartTokenId,
+        uint256 PartId,
+        uint256 PrinterId,
+        uint256 PrinterTokenId,
+        string NFTtype
+    );
+&nbsp;
+    /**
+     * @dev Emitted when user assembles part by using assembler.
+     */
+    event AssembleParts(
+        address User,
+        uint256[] PartIds,
+        uint256[] PartTokenids,
+        uint256 UpgradeId,
+        uint256 UpgradeTokenId,
+        string ConstructType
+    );
+&nbsp;
+    /**
+     * @dev Emitted when user mints the upgrade.
+     */
+    event UpgradeMinted(
+        address User,
+        uint256 UpgradeId,
+        uint256 UpgradeTokenId,
+        string NFTtype
+    );
+&nbsp;
+    /**
+     * @dev Emitted when user mints the construct.
+     */
+    event ConstructMinted(
+        address User,
+        uint256 ConstructId,
+        uint256 ConstructTokenId,
+        string NFTtype
+    );
+&nbsp;
+    /**
+     * @dev Emitted when user process part with thread upgrade.
+     */
+    event ProcessedWithThread(
+        address User,
+        uint256 ThreadId,
+        uint256 ThreadTokenId,
+        uint256 PartId,
+        uint256 PartTokenId,
+        string NFTtype
+    );
+&nbsp;
+    /**
+     * @dev Emitted when user process part without thread upgrade.
+     */
+    event ProcessedWithOutThread(
+        address User,
+        uint256 PartId,
+        uint256 PartTokenId,
+        string NFTtype
+    );
+&nbsp;
+    /**
+     * @dev Emitted when user recycle the broken part.
+     */
+    event RecycledPart(
+        address User,
+        uint256 PartTokenId,
+        uint256 PartId,
+        uint256 PrinterId,
+        uint256 PrinterTokenId,
+        string NFTtype
+    );
+&nbsp;
+    /**
+     * @dev Emitted when user sells the consumables.
+     */
+    event SoldConsumable(
+        address User,
+        uint256 Amount,
+        uint256 ConsumableId,
+        string NFTtype
+    );
+&nbsp;
+    /**
+     * @dev Emitted when user sells the construct.
+     */
+    event SoldConstruct(
+        address User,
+        uint256 Amount,
+        uint256 ConstructId,
+        string NFTtype
+    );
+&nbsp;
+    /**
+     * @dev Emitted when part are processed.
+     */
+    event PartProcessed(
+        address User,
+        uint256 PartTokenId,
+        uint256 PartId,
+        uint256 ThreadUpgradeId,
+        uint256 ThreadUpgradeTokenId,
+        string NFTtype
+    );
+&nbsp;
+    /**
+     * @dev Emitted when user upgrades the printer and burns the upgrade token.
+     */
+    event equipUpgraded(
+        address User,
+        uint256 PrinterId,
+        uint256 PrinterTokenId,
+        uint256 UpgradeId,
+        uint256 UpgradeTokenId
+    );
+&nbsp;
+    /**
+     * @dev Emitted when user buys listed nft from marketplace.
+     */
+    event TokenPurchased(
+        address PreviousOwner,
+        address NewOwner,
+        uint256 Price,
+        uint256 TokenId,
+        string TokenType
+    );
+&nbsp;
+    // Initialization
+<span class="fstat-no" title="function not covered" >    function initialize() public initializer {</span>
+<span class="cstat-no" title="statement not covered" >        __ERC721_init("Alloy Space S1", "ARC")</span>;
+<span class="cstat-no" title="statement not covered" >        __Ownable_init()</span>;
+<span class="cstat-no" title="statement not covered" >        __ReentrancyGuard_init()</span>;
+&nbsp;
+        baseUri = "https://assets.alloy.space/token-uri-s1/";
+        baseExtension = "-token-uri.json";
+&nbsp;
+        tokenCounter = 0;
+        allowedPrinters = 3;
+&nbsp;
+        NiozERC20Address = IERC20Upgradeable(
+            0x7c0AA72dbd7058D0Aee8bF99391B827A3AF04878
+        );
+        MerchantWallet = 0x25fC99eF8C2bE73c303f7e54A0c2Da423E48326b;
+&nbsp;
+        commissionFee = 60;
+    }
+&nbsp;
+    /**
+     * @dev Only allowed address can perform specific task.
+     */
+<span class="fstat-no" title="function not covered" >    modifier onlyMaster() {</span>
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            msg.sender == address(ARFtokenAddress),
+            "AlloyERC721: Only Master can call"
+        );
+        _;
+    }
+&nbsp;
+    /**
+     * @dev mints the ARC according ARF epoch.
+     *
+     * @param _owner mints to owner address.
+     *
+     * Requirements:
+     * - msg.sender must be called by ARF contract.
+     *
+     */
+<span class="fstat-no" title="function not covered" >    function mintARC(address _owner)</span>
+        external
+        virtual
+        onlyMaster
+        returns (uint256)
+    {
+        tokenCounter += 1;
+<span class="cstat-no" title="statement not covered" >        _mint(_owner, tokenCounter)</span>;
+<span class="cstat-no" title="statement not covered" >        return tokenCounter;</span>
+    }
+&nbsp;
+    /**
+     * @dev updated token URI
+     *
+     * @param _baseuri base URI
+     * @param _extension extension URI
+     *
+     * Requirements:
+     * - msg.sender must be owner address of this contract.
+     *
+     */
+<span class="fstat-no" title="function not covered" >    function upadateDefaultUri(string memory _baseuri, string memory _extension)</span>
+        external
+        virtual
+        onlyOwner
+    {
+        baseUri = _baseuri;
+        baseExtension = _extension;
+    }
+&nbsp;
+    /**
+     * @dev updated contract values
+     *
+     * @param _merchant_address merchant wallet address
+     * @param _Nioz_address Nioz token address
+     * @param _Arf_address ARF token address
+     * @param _num_allowed allowed printers to be mint in one transaction
+     * @param _fee_percent commission fee percentage
+     *
+     * Requirements:
+     * - msg.sender must be owner address of this contract.
+     *
+     */
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function updateMerchantWalletAndNiozAddress(</span>
+        address _merchant_address,
+        address _Nioz_address,
+        address _Arf_address,
+        uint256 _num_allowed,
+        uint256 _fee_percent
+    ) external virtual onlyOwner {
+        MerchantWallet = _merchant_address;
+        NiozERC20Address = IERC20Upgradeable(_Nioz_address);
+        ARFtokenAddress = ARFInterface(_Arf_address);
+        allowedPrinters = _num_allowed;
+        commissionFee = _fee_percent;
+    }
+&nbsp;
+    /**
+     * @dev User mints the printer w.r.t to Avax
+     *
+     * @param _order order tuple
+     * @param _signature signature
+     *
+     * Requirements:
+     * - msg.sender must have AVAX balance in wallet
+     *
+     * Emits a {PrinterMinted} event.
+     */
+<span class="fstat-no" title="function not covered" >    function mintPrinterARC(</span>
+        Order_Printer calldata _order,
+        bytes memory _signature
+    ) external payable virtual nonReentrant {
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            SignatureCheckerUpgradeable.isValidSignatureNow(
+                owner(),
+                _order.message_hash,
+                _signature
+            ) &amp;&amp;
+                !isVerified[_signature] &amp;&amp;
+                !(NiozERC20Address.isVerified(_signature)) &amp;&amp;
+                !(ARFtokenAddress.isVerified(_signature)),
+            "AlloyERC721: Not allowed"
+        );
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            ARFtokenAddress.checkEpochStatus(_order.epoch_id) &amp;&amp;
+                ARFtokenAddress
+                    .epochDetails(_order.epoch_id)
+                    .totalQuantityARC &gt;=
+                (ARFtokenAddress
+                    .epochDetails(_order.epoch_id)
+                    .quantityCounterARC + _order.quantity) &amp;&amp;
+                (_order.epoch_id == 6 ||
+                    _order.epoch_id == 7 ||
+                    _order.epoch_id == 8) &amp;&amp;
+                ARFtokenAddress
+                    .FactoryPools(_order.epoch_id, _order.pool_id)
+                    .totalQuantityARC &gt;=
+                ARFtokenAddress
+                    .FactoryPools(_order.epoch_id, _order.pool_id)
+                    .quantityCounterARC +
+                    _order.quantity,
+            "AlloyERC721: This epoch is closed or printer is out of stock"
+        );
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            ARFtokenAddress
+                .FactoryPools(_order.epoch_id, _order.pool_id)
+                .avaxPriceARC *
+                _order.quantity ==
+                msg.value,
+            "AlloyERC721: Invalid price"
+        );
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        uint256[] memory temp;</span>
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            _order.quantity &lt;= allowedPrinters,
+            "AlloyERC721: Invalid quantity"
+        );
+        temp = new uint256[](_order.quantity);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        for (uint256 i = 0; i &lt; _order.quantity; i++) {</span>
+            tokenCounter += 1;
+            NFTtypes[tokenCounter] = "PRINTER";
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            _safeMint(msg.sender, tokenCounter)</span>;
+            temp[i] = tokenCounter;
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        payable(MerchantWallet).transfer(msg.value)</span>;
+<span class="cstat-no" title="statement not covered" >        if (</span>
+            ARFtokenAddress
+                .FactoryPools(_order.epoch_id, _order.pool_id)
+                .NiozPriceARC &gt; 0
+        ) {
+<span class="cstat-no" title="statement not covered" >            NiozERC20Address.safeTransfer(</span>
+                msg.sender,
+                address(this),
+                ARFtokenAddress
+                    .FactoryPools(_order.epoch_id, _order.pool_id)
+                    .NiozPriceARC
+            );
+<span class="cstat-no" title="statement not covered" >            NiozERC20Address.approve(</span>
+                MerchantWallet,
+                ARFtokenAddress
+                    .FactoryPools(_order.epoch_id, _order.pool_id)
+                    .NiozPriceARC
+            );
+<span class="cstat-no" title="statement not covered" >            NiozERC20Address.safeTransfer(</span>
+                address(this),
+                MerchantWallet,
+                ARFtokenAddress
+                    .FactoryPools(_order.epoch_id, _order.pool_id)
+                    .NiozPriceARC
+            );
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        ARFtokenAddress.updateCounter(</span>
+            _order.epoch_id,
+            _order.pool_id,
+            _order.quantity
+        );
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        emit PrinterMinted(</span>
+            msg.sender,
+            temp,
+            _order.epoch_id,
+            _order.pool_id,
+            msg.value,
+            ARFtokenAddress.FactoryPools(_order.epoch_id, _order.pool_id).NiozPriceARC,
+            "PRINTER"
+        );
+    }
+&nbsp;
+    /**
+     * @dev User mints the part.
+     *
+     * @param _order order tuple
+     * @param _signature platform signature
+     *
+     * Requirements:
+     * - msg.sender must have own printer for creating parts.
+     *
+     * Emits a {PartMinted} event.
+     */
+<span class="fstat-no" title="function not covered" >    function mintPart(PartOrder memory _order, bytes memory _signature)</span>
+        external
+        virtual
+    {
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            SignatureCheckerUpgradeable.isValidSignatureNow(
+                owner(),
+                _order.messageHash,
+                _signature
+            ) &amp;&amp;
+                !isVerified[_signature] &amp;&amp;
+                !(NiozERC20Address.isVerified(_signature)) &amp;&amp;
+                !(ARFtokenAddress.isVerified(_signature)),
+            "AlloyERC721: Not allowed"
+        );
+&nbsp;
+        tokenCounter += 1;
+        NFTtypes[tokenCounter] = "PART";
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        _safeMint(msg.sender, tokenCounter)</span>;
+        isVerified[_signature] = true;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        emit PartMinted(msg.sender, tokenCounter, _order.partId, "PART");</span>
+    }
+&nbsp;
+    /**
+     * @dev User assembles the parts with the help of assembler.
+     *
+     * @param _order order tuple
+     * @param _signature platform signature
+     *
+     * Requirements:
+     * - msg.sender must have own part token ids for assembling.
+     *
+     * Emits a {AssembleParts} event.
+     */
+<span class="fstat-no" title="function not covered" >    function assembleParts(</span>
+        AssembleStruct memory _order,
+        bytes memory _signature
+    ) external virtual {
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            SignatureCheckerUpgradeable.isValidSignatureNow(
+                owner(),
+                _order.messageHash,
+                _signature
+            ) &amp;&amp;
+                !isVerified[_signature] &amp;&amp;
+                !(NiozERC20Address.isVerified(_signature)) &amp;&amp;
+                !(ARFtokenAddress.isVerified(_signature)),
+            "AlloyERC721: Not allowed"
+        );
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        for (uint256 i = 0; i &lt; _order.partTokenIds.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >            require(</span>
+                ownerOf(_order.partTokenIds[i]) == msg.sender,
+                "AlloyERC721: Not a part owner"
+            );
+<span class="cstat-no" title="statement not covered" >            require(</span>
+                bytes(NFTtypes[_order.partTokenIds[i]]).length ==
+                    bytes("PART").length,
+                "AlloyERC721: Not a part"
+            );
+<span class="cstat-no" title="statement not covered" >            _burn(_order.partTokenIds[i])</span>;
+            NFTtypes[_order.partTokenIds[i]] = "";
+            isVerified[_signature] = true;
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            bytes(NFTtypes[_order.assembleUpgradeTokenId]).length ==
+                bytes("UPGRADE-ASSEMBLER").length,
+            "AlloyERC721: Not a assembler"
+        );
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            ownerOf(_order.assembleUpgradeTokenId) == msg.sender,
+            "AlloyERC721: Not a assembler owner"
+        );
+<span class="cstat-no" title="statement not covered" >        _burn(_order.assembleUpgradeTokenId)</span>;
+        NFTtypes[_order.assembleUpgradeTokenId] = "";
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        emit AssembleParts(</span>
+            msg.sender,
+            _order.partIds,
+            _order.partTokenIds,
+            _order.assembleUpgradeId,
+            _order.assembleUpgradeTokenId,
+            _order.constructType
+        );
+    }
+&nbsp;
+    /**
+     * @dev User process the part.
+     *
+     * @param _order order tuple
+     * @param _signature platform signature
+     *
+     * Requirements:
+     * - msg.sender must have own part token id.
+     *
+     * Emits a {ProcessedWithThread} event if processed with thread upgrade.
+     * Emits a {ProcessedWithOutThread} event if processed without thread upgrade.
+     */
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function processPart(ProcessOrder memory _order, bytes memory _signature)</span>
+        external
+        virtual
+    {
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            SignatureCheckerUpgradeable.isValidSignatureNow(
+                owner(),
+                _order.messageHash,
+                _signature
+            ) &amp;&amp;
+                !isVerified[_signature] &amp;&amp;
+                !(NiozERC20Address.isVerified(_signature)) &amp;&amp;
+                !(ARFtokenAddress.isVerified(_signature)),
+            "AlloyERC721: Not allowed"
+        );
+&nbsp;
+        tokenCounter += 1;
+<span class="cstat-no" title="statement not covered" >        _safeMint(msg.sender, tokenCounter)</span>;
+        NFTtypes[tokenCounter] = "PART";
+        isVerified[_signature] = true;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (_order.isThread) {</span>
+<span class="cstat-no" title="statement not covered" >            require(</span>
+                ownerOf(_order.threadUpgradeTokenId) == msg.sender,
+                "AlloyERC721: Not a owner"
+            );
+<span class="cstat-no" title="statement not covered" >            _burn(_order.threadUpgradeTokenId)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            emit ProcessedWithThread(</span>
+                msg.sender,
+                _order.threadUpgradeId,
+                _order.threadUpgradeTokenId,
+                _order.partId,
+                tokenCounter,
+                "PART"
+            );
+        } else {
+<span class="cstat-no" title="statement not covered" >            emit ProcessedWithOutThread(</span>
+                msg.sender,
+                _order.partId,
+                tokenCounter,
+                "PART"
+            );
+        }
+    }
+&nbsp;
+    /**
+     * @dev User sells processed part to factory.
+     *
+     * @param _order order tuple
+     * @param _signature platform signature
+     *
+     * Requirements:
+     * - msg.sender must have own part token id.
+     *
+     * Emits a {PartBurned} event.
+     */
+<span class="fstat-no" title="function not covered" >    function sellProcessedPart(Order memory _order, bytes memory _signature)</span>
+        external
+        virtual
+    {
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            SignatureCheckerUpgradeable.isValidSignatureNow(
+                owner(),
+                _order.messageHash,
+                _signature
+            ) &amp;&amp;
+                !isVerified[_signature] &amp;&amp;
+                !(NiozERC20Address.isVerified(_signature)) &amp;&amp;
+                !(ARFtokenAddress.isVerified(_signature)),
+            "AlloyERC721: Not allowed"
+        );
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            bytes(NFTtypes[_order.partTokenId]).length == bytes("PART").length,
+            "AlloyERC721: Not a part"
+        );
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            ownerOf(_order.partTokenId) == msg.sender,
+            "AlloyERC721: Not a owner"
+        );
+&nbsp;
+        NFTtypes[_order.partTokenId] = "";
+<span class="cstat-no" title="statement not covered" >        _burn(_order.partTokenId)</span>;
+        isVerified[_signature] = true;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (_order.isSendToWallet) {</span>
+<span class="cstat-no" title="statement not covered" >            NiozERC20Address.mint(msg.sender, _order.amount)</span>;
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (!_order.isSendToWallet) {</span>
+<span class="cstat-no" title="statement not covered" >            require(</span>
+                bytes(NFTtypes[_order.printerTokenId]).length ==
+                    bytes("PRINTER").length,
+                "AlloyERC721: Not a printer"
+            );
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            require(</span>
+                ownerOf(_order.printerTokenId) == msg.sender,
+                "AlloyERC721: Not a owner"
+            );
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        emit PartBurned(</span>
+            msg.sender,
+            _order.partTokenId,
+            _order.partId,
+            _order.printerId,
+            _order.printerTokenId,
+            "PART"
+        );
+    }
+&nbsp;
+    /**
+     * @dev User recycles the broken part in printer.
+     *
+     * @param _order order tuple
+     * @param _signature platform signature
+     *
+     * Requirements:
+     * - msg.sender must have own part token id.
+     *
+     * Emits a {RecycledPart} event.
+     */
+<span class="fstat-no" title="function not covered" >    function recycleBrokenPart(Order memory _order, bytes memory _signature)</span>
+        external
+        virtual
+    {
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            SignatureCheckerUpgradeable.isValidSignatureNow(
+                owner(),
+                _order.messageHash,
+                _signature
+            ) &amp;&amp;
+                !isVerified[_signature] &amp;&amp;
+                !(NiozERC20Address.isVerified(_signature)) &amp;&amp;
+                !(ARFtokenAddress.isVerified(_signature)),
+            "AlloyERC721: Not allowed"
+        );
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            bytes(NFTtypes[_order.partTokenId]).length == bytes("PART").length,
+            "AlloyERC721: Not a part"
+        );
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            ownerOf(_order.partTokenId) == msg.sender,
+            "AlloyERC721: Not a owner"
+        );
+&nbsp;
+        NFTtypes[_order.partTokenId] = "";
+<span class="cstat-no" title="statement not covered" >        _burn(_order.partTokenId)</span>;
+        isVerified[_signature] = true;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (_order.isSendToWallet) {</span>
+<span class="cstat-no" title="statement not covered" >            NiozERC20Address.mint(msg.sender, _order.amount)</span>;
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (!_order.isSendToWallet) {</span>
+<span class="cstat-no" title="statement not covered" >            require(</span>
+                bytes(NFTtypes[_order.printerTokenId]).length ==
+                    bytes("PRINTER").length,
+                "AlloyERC721: Not a printer"
+            );
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            require(</span>
+                ownerOf(_order.printerTokenId) == msg.sender,
+                "AlloyERC721: Not a owner"
+            );
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        emit RecycledPart(</span>
+            msg.sender,
+            _order.partTokenId,
+            _order.partId,
+            _order.printerId,
+            _order.printerTokenId,
+            "PART"
+        );
+    }
+&nbsp;
+    /**
+     * @dev User mints the upgrade.
+     *
+     * @param _order order tuple
+     * @param _signature platform signature
+     *
+     * Emits a {UpgradeMinted} event.
+     */
+<span class="fstat-no" title="function not covered" >    function mintUpgrade(UpgradeOrder memory _order, bytes memory _signature)</span>
+        external
+        virtual
+    {
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            SignatureCheckerUpgradeable.isValidSignatureNow(
+                owner(),
+                _order.messageHash,
+                _signature
+            ) &amp;&amp;
+                !isVerified[_signature] &amp;&amp;
+                !(NiozERC20Address.isVerified(_signature)) &amp;&amp;
+                !(ARFtokenAddress.isVerified(_signature)),
+            "AlloyERC721: Not allowed"
+        );
+&nbsp;
+        tokenCounter += 1;
+        NFTtypes[tokenCounter] = _order.upgradeType;
+        isVerified[_signature] = true;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        _safeMint(msg.sender, tokenCounter)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        emit UpgradeMinted(</span>
+            msg.sender,
+            _order.upgradeId,
+            tokenCounter,
+            _order.upgradeType
+        );
+    }
+&nbsp;
+    /**
+     * @dev User mints the construct.
+     *
+     * @param _order order tuple
+     * @param _signature platform signature
+     *
+     * Emits a {ConstructMinted} event.
+     */
+<span class="fstat-no" title="function not covered" >    function mintConstruct(</span>
+        ConstructOrder memory _order,
+        bytes memory _signature
+    ) external virtual {
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            SignatureCheckerUpgradeable.isValidSignatureNow(
+                owner(),
+                _order.messageHash,
+                _signature
+            ) &amp;&amp;
+                !isVerified[_signature] &amp;&amp;
+                !(NiozERC20Address.isVerified(_signature)) &amp;&amp;
+                !(ARFtokenAddress.isVerified(_signature)),
+            "AlloyERC721: Not allowed"
+        );
+&nbsp;
+        tokenCounter += 1;
+        NFTtypes[tokenCounter] = "CONSTRUCT";
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        _safeMint(msg.sender, tokenCounter)</span>;
+        isVerified[_signature] = true;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        emit ConstructMinted(</span>
+            msg.sender,
+            _order.constructId,
+            tokenCounter,
+            "CONSTRUCT"
+        );
+    }
+&nbsp;
+    /**
+     * @dev User sells consumble and gets the NIOZ tokens.
+     *
+     * @param _order order tuple
+     * @param _signature platform signature
+     *
+     * Emits a {SoldConsumable} event.
+     */
+<span class="fstat-no" title="function not covered" >    function sellConsumable(SellOrder memory _order, bytes memory _signature)</span>
+        external
+        virtual
+    {
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            SignatureCheckerUpgradeable.isValidSignatureNow(
+                owner(),
+                _order.messageHash,
+                _signature
+            ) &amp;&amp;
+                !isVerified[_signature] &amp;&amp;
+                !(NiozERC20Address.isVerified(_signature)) &amp;&amp;
+                !(ARFtokenAddress.isVerified(_signature)),
+            "AlloyERC721: Not allowed"
+        );
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        NiozERC20Address.mint(msg.sender, _order.amount)</span>;
+        isVerified[_signature] = true;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        emit SoldConsumable(msg.sender, _order.amount, _order.Id, "CONSUMABLE");</span>
+    }
+&nbsp;
+    /**
+     * @dev User sells Construct and gets the NIOZ tokens.
+     *
+     * @param _order order tuple
+     * @param _signature platform signature
+     *
+     * Emits a {SoldConstruct} event.
+     */
+<span class="fstat-no" title="function not covered" >    function sellAlloyConstruct(</span>
+        SellOrder memory _order,
+        bytes memory _signature
+    ) external virtual {
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            SignatureCheckerUpgradeable.isValidSignatureNow(
+                owner(),
+                _order.messageHash,
+                _signature
+            ) &amp;&amp;
+                !isVerified[_signature] &amp;&amp;
+                !(NiozERC20Address.isVerified(_signature)) &amp;&amp;
+                !(ARFtokenAddress.isVerified(_signature)),
+            "AlloyERC721: Not allowed"
+        );
+<span class="cstat-no" title="statement not covered" >        NiozERC20Address.mint(msg.sender, _order.amount)</span>;
+        isVerified[_signature] = true;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        emit SoldConstruct(msg.sender, _order.amount, _order.Id, "CONSTRUCT");</span>
+    }
+&nbsp;
+    /**
+     * @dev process the part by burning upgrade tokens.
+     *
+     * @param _order order tuple
+     * @param _signature platform signature
+     *
+     * Requirements:
+     * - msg.sender must have own upgrade token id.
+     *
+     * Emits a {PartProcessed} event.
+     */
+<span class="fstat-no" title="function not covered" >    function processPartInventory(</span>
+        OrderUpgrade memory _order,
+        bytes memory _signature
+    ) external virtual {
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            SignatureCheckerUpgradeable.isValidSignatureNow(
+                owner(),
+                _order.messageHash,
+                _signature
+            ) &amp;&amp;
+                !isVerified[_signature] &amp;&amp;
+                !(NiozERC20Address.isVerified(_signature)) &amp;&amp;
+                !(ARFtokenAddress.isVerified(_signature)),
+            "AlloyERC721: Not allowed"
+        );
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            ownerOf(_order.pTokenId) == msg.sender,
+            "AlloyERC721: Not a owner"
+        );
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            ownerOf(_order.uTokenId) == msg.sender,
+            "AlloyERC721: Not a owner"
+        );
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            bytes(NFTtypes[_order.pTokenId]).length == bytes("PART").length,
+            "AlloyERC721: Not a part"
+        );
+<span class="cstat-no" title="statement not covered" >        _burn(_order.uTokenId)</span>;
+        isVerified[_signature] = true;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        emit PartProcessed(</span>
+            msg.sender,
+            _order.pTokenId,
+            _order.pId,
+            _order.uId,
+            _order.uTokenId,
+            "PART"
+        );
+    }
+&nbsp;
+    /**
+     * @dev upgrade the printer by upgrade token id.
+     *
+     * @param _order order tuple
+     * @param _signature platform signature
+     *
+     * Requirements:
+     * - msg.sender must have own upgrade token and printer token.
+     *
+     * Emits a {equipUpgraded} event.
+     */
+<span class="fstat-no" title="function not covered" >    function equipUpgrade(OrderUpgrade memory _order, bytes memory _signature)</span>
+        external
+        virtual
+    {
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            SignatureCheckerUpgradeable.isValidSignatureNow(
+                owner(),
+                _order.messageHash,
+                _signature
+            ) &amp;&amp;
+                !isVerified[_signature] &amp;&amp;
+                !(NiozERC20Address.isVerified(_signature)) &amp;&amp;
+                !(ARFtokenAddress.isVerified(_signature)),
+            "AlloyERC721: Not allowed"
+        );
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            ownerOf(_order.pTokenId) == msg.sender,
+            "AlloyERC721: Not a owner"
+        );
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            ownerOf(_order.uTokenId) == msg.sender,
+            "AlloyERC721: Not a owner"
+        );
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            bytes(NFTtypes[_order.pTokenId]).length == bytes("PRINTER").length,
+            "AlloyERC721: Not a printer"
+        );
+<span class="cstat-no" title="statement not covered" >        _burn(_order.uTokenId)</span>;
+        isVerified[_signature] = true;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        emit equipUpgraded(</span>
+            msg.sender,
+            _order.pId,
+            _order.pTokenId,
+            _order.uId,
+            _order.uTokenId
+        );
+    }
+&nbsp;
+    /**
+     * @dev user buys the tokens from marketplaces.
+     *
+     * @param _order order tuple
+     * @param _signature platform signature
+     *
+     * Emits a {TokenPurchased} event.
+     */
+<span class="fstat-no" title="function not covered" >    function buy(SellOrder memory _order, bytes memory _signature)</span>
+        external
+        payable
+        virtual
+        nonReentrant
+    {
+<span class="cstat-no" title="statement not covered" >        address previousOwner = ownerOf(_order.Id);</span>
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            SignatureCheckerUpgradeable.isValidSignatureNow(
+                previousOwner,
+                _order.messageHash,
+                _signature
+            ),
+            "AlloyERC721: Not listed"
+        );
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            _order.amount == msg.value &amp;&amp;
+                !isVerified[_signature] &amp;&amp;
+                !(NiozERC20Address.isVerified(_signature)) &amp;&amp;
+                !(ARFtokenAddress.isVerified(_signature)),
+            "AlloyERC721: Prize is incorrect or invalid"
+        );
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        _safeTransfer(previousOwner, msg.sender, _order.Id, "")</span>;
+        isVerified[_signature] = true;
+&nbsp;
+        // transfer fee
+<span class="cstat-no" title="statement not covered" >        uint256 fee = feeCalculation(msg.value);</span>
+<span class="cstat-no" title="statement not covered" >        payable(MerchantWallet).transfer(fee)</span>;
+<span class="cstat-no" title="statement not covered" >        payable(previousOwner).transfer(msg.value - fee)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        emit TokenPurchased(</span>
+            previousOwner,
+            msg.sender,
+            msg.value,
+            _order.Id,
+            NFTtypes[_order.Id]
+        );
+    }
+&nbsp;
+    /**
+     * @dev Returns the Uniform Resource Identifier (URI) for `tokenId` token.
+     */
+<span class="fstat-no" title="function not covered" >    function tokenURI(uint256 _tokenId)</span>
+        public
+        view
+        virtual
+        override
+        returns (string memory)
+    {
+<span class="cstat-no" title="statement not covered" >        require(</span>
+            _exists(_tokenId),
+            "AlloyERC721: URI query for nonexistent token"
+        );
+<span class="cstat-no" title="statement not covered" >        return</span>
+            string(
+                abi.encodePacked(
+                    baseUri,
+                    StringsUpgradeable.toString(_tokenId),
+                    baseExtension
+                )
+            );
+    }
+&nbsp;
+    /**
+     * @dev Returns calculated tax fee.
+     */
+<span class="fstat-no" title="function not covered" >    function feeCalculation(uint256 _total_amount)</span>
+        internal
+        view
+        returns (uint256 Fee)
+    {
+        Fee = (commissionFee * _total_amount) / 1000;
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon May 29 2023 16:09:59 GMT+0530 (India Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
